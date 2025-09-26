@@ -33,10 +33,10 @@
 Install via npm:
 
 ```bash
-npm install fas.js
+git clone https://github.com/AySail/forksAndSpoons.git
 ````
 
-Or download the `fas.js` file directly and include it in your project.
+Or download the `fas.js` file directly and include it in your project.(via github download)
 
 ---
 
@@ -120,7 +120,6 @@ This project is licensed under the MIT License.
 
 ## Contact
 
-Made with ❤️ by [Your Name](https://github.com/yourusername)
+Made with ❤️ by [Jer](https://github.com/Aysail)
 
-GitHub Repo: [https://github.com/yourusername/fas.js](https://github.com/yourusername/fas.js)
 
