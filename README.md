@@ -21,9 +21,9 @@
 
 ## Installation
 
-```(Not Supported Right Now)
-npm install forks-and-spoons
-```
+(Not Supported Right Now)```
+npm install forks-and-spoons```
+
 
 Or use via `<script>` tag (coming soon).
 We recommd downloading the .js
