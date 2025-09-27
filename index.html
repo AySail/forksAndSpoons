@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Forks & Spoons (FAS)</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+    line-height: 1.5;
+  }
+  h1, h2 {
+    color: #2c3e50;
+  }
+  section {
+    margin-bottom: 2rem;
+  }
+  input, select, button {
+    padding: 0.5rem;
+    margin: 0.3rem 0.5rem 0.3rem 0;
+    font-size: 1rem;
+  }
+  button {
+    cursor: pointer;
+  }
+  .result {
+    font-weight: bold;
+    margin-top: 0.5rem;
+  }
+  footer {
+    font-size: 0.8rem;
+    color: #777;
+    margin-top: 3rem;
+    text-align: center;
+  }
+  a {
+    color: #3498db;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+
+<h1>Forks & Spoons (FAS)</h1>
+<p><em>Convert temperatures and pet ages with realistic mappings.</em></p>
+
+<section>
+  <h2>Temperature Converter</h2>
+  <input type="number" id="tempValue" placeholder="Temperature value" />
+  <select id="tempFrom"></select> →
+  <select id="tempTo"></select>
+  <button id="tempConvertBtn">Convert</button>
+  <div id="tempResult" class="result"></div>
+</section>
+
+<section>
+  <h2>Pet Age Converter</h2>
+  <label for="petType">Pet Type:</label>
+  <select id="petType">
+    <option value="dog">Dog</option>
+    <option value="cat">Cat</option>
+    <option value="horse">Horse</option>
+  </select>
+
+  <label for="dogSize" id="dogSizeLabel" style="display: inline-block; margin-left: 1rem;">Dog Size:</label>
+  <select id="dogSize" style="display: inline-block;">
+    <option value="small">Small</option>
+    <option value="medium" selected>Medium</option>
+    <option value="large">Large</option>
+  </select>
+
+  <input type="number" id="petAge" placeholder="Pet age in years" min="0" style="margin-left: 1rem;" />
+  <button id="petConvertBtn">Convert to Human Years</button>
+  <div id="petResult" class="result"></div>
+</section>
+
+<footer>
+  Forks & Spoons (FAS) &mdash; Temperature & Pet Age Converter<br />
+  <a href="https://github.com/yourusername/forks-and-spoons" target="_blank" rel="noreferrer">GitHub Repo</a> | 
+
+
+<script>
+  // Temperature scales list
+  const tempScales = ['celsius', 'fahrenheit', 'kelvin', 'rankine', 'reaumur', 'romer', 'delisle', 'newton', 'gasmark', 'danish'];
+
+  const tempFromSelect = document.getElementById('tempFrom');
+  const tempToSelect = document.getElementById('tempTo');
+
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  tempScales.forEach(scale => {
+    const opt1 = document.createElement('option');
+    opt1.value = scale;
+    opt1.textContent = capitalize(scale);
+    tempFromSelect.appendChild(opt1);
+
+    const opt2 = document.createElement('option');
+    opt2.value = scale;
+    opt2.textContent = capitalize(scale);
+    tempToSelect.appendChild(opt2);
+  });
+  tempFromSelect.value = 'celsius';
+  tempToSelect.value = 'fahrenheit';
+
+  // Show/hide dog size dropdown
+  const petTypeSelect = document.getElementById('petType');
+  const dogSizeSelect = document.getElementById('dogSize');
+  const dogSizeLabel = document.getElementById('dogSizeLabel');
+
+  petTypeSelect.addEventListener('change', () => {
+    if (petTypeSelect.value === 'dog') {
+      dogSizeSelect.style.display = 'inline-block';
+      dogSizeLabel.style.display = 'inline-block';
+    } else {
+      dogSizeSelect.style.display = 'none';
+      dogSizeLabel.style.display = 'none';
+    }
+  });
+
+  // Conversion functions
+  function convertTemperature(value, from, to) {
+    from = from.toLowerCase();
+    to = to.toLowerCase();
+    let celsius;
+
+    switch (from) {
+      case 'celsius': celsius = value; break;
+      case 'fahrenheit': celsius = (value - 32) * 5 / 9; break;
+      case 'kelvin': celsius = value - 273.15; break;
+      case 'rankine': celsius = (value - 491.67) * 5 / 9; break;
+      case 'reaumur': celsius = value * 5 / 4; break;
+      case 'romer': celsius = (value - 7.5) * 40 / 21; break;
+      case 'delisle': celsius = 100 - value * 2 / 3; break;
+      case 'newton': celsius = value * 100 / 33; break;
+      case 'gasmark':
+        if (value === 0.25) celsius = 125;
+        else if (value === 0.5) celsius = 135;
+        else celsius = value * 14 + 121;
+        break;
+      case 'danish':
+        celsius = 100 - (value * (100 / 60));
+        break;
+      default:
+        return 'Invalid from scale';
+    }
+
+    let result;
+    switch (to) {
+      case 'celsius': result = celsius; break;
+      case 'fahrenheit': result = (celsius * 9 / 5) + 32; break;
+      case 'kelvin': result = celsius + 273.15; break;
+      case 'rankine': result = (celsius + 273.15) * 9 / 5; break;
+      case 'reaumur': result = celsius * 4 / 5; break;
+      case 'romer': result = celsius * 21 / 40 + 7.5; break;
+      case 'delisle': result = (100 - celsius) * 3 / 2; break;
+      case 'newton': result = celsius * 33 / 100; break;
+      case 'gasmark':
+        if (celsius === 125) result = 0.25;
+        else if (celsius === 135) result = 0.5;
+        else result = (celsius - 121) / 14;
+        break;
+      case 'danish':
+        result = (100 - celsius) * 60 / 100;
+        break;
+      default:
+        return 'Invalid to scale';
+    }
+    return +result.toFixed(2);
+  }
+
+  const dogSizes = {
+    small: { year1: 15, year2: 24, after: 4 },
+    medium: { year1: 15, year2: 24, after: 5 },
+    large: { year1: 15, year2: 24, after: 6.5 }
+  };
+
+  function dogToHuman(dogYears, size) {
+    if (!dogSizes[size]) return 'Invalid dog size';
+    const s = dogSizes[size];
+    if (dogYears <= 0) return 0;
+    if (dogYears === 1) return s.year1;
+    if (dogYears === 2) return s.year2;
+    return s.year2 + (dogYears - 2) * s.after;
+  }
+
+  function catToHuman(catYears) {
+    if (catYears <= 0) return 0;
+    if (catYears === 1) return 15;
+    if (catYears === 2) return 24;
+    if (catYears === 3) return 28;
+    if (catYears === 4) return 32;
+    if (catYears === 5) return 36;
+    return 36 + (catYears - 5) * 4;
+  }
+
+  function horseToHuman(horseYears) {
+    if (horseYears <= 0) return 0;
+    if (horseYears === 1) return 6;
+    if (horseYears === 2) return 12;
+    if (horseYears === 3) return 16;
+    if (horseYears === 5) return 24;
+    if (horseYears === 10) return 39;
+    if (horseYears === 20) return 69;
+    return horseYears * 3;
+  }
+
+  // DOM references
+  const tempValueInput = document.getElementById('tempValue');
+  const tempResultDiv = document.getElementById('tempResult');
+  const tempConvertBtn = document.getElementById('tempConvertBtn');
+
+  const petAgeInput = document.getElementById('petAge');
+  const petResultDiv = document.getElementById('petResult');
+  const petConvertBtn = document.getElementById('petConvertBtn');
+
+  tempConvertBtn.addEventListener('click', () => {
+    const val = parseFloat(tempValueInput.value);
+    if (isNaN(val)) {
+      tempResultDiv.textContent = 'Please enter a valid number';
+      return;
+    }
+    const from = tempFromSelect.value;
+    const to = tempToSelect.value;
+    const res = convertTemperature(val, from, to);
+    tempResultDiv.textContent = `${val}° ${capitalize(from)} = ${res}° ${capitalize(to)}`;
+  });
+
+  petConvertBtn.addEventListener('click', () => {
+    const val = parseFloat(petAgeInput.value);
+    if (isNaN(val) || val < 0) {
+      petResultDiv.textContent = 'Please enter a valid positive number';
+      return;
+    }
+    const pet = petTypeSelect.value;
+    let resText = '';
+
+    if (pet === 'dog') {
+      const size = dogSizeSelect.value;
+      const res = dogToHuman(val, size);
+      resText = `${val} dog year(s) (${size}) ≈ ${res.toFixed(2)} human years`;
+    } else if (pet === 'cat') {
+      const res = catToHuman(val);
+      resText = `${val} cat year(s) ≈ ${res.toFixed(2)} human years`;
+    } else if (pet === 'horse') {
+      const res = horseToHuman(val);
+      resText = `${val} horse year(s) ≈ ${res.toFixed(2)} human years`;
+    } else {
+      resText = 'Invalid pet type';
+    }
+    petResultDiv.textContent = resText;
+  });
+
+  // Initialize dog size visibility on page load
+  petTypeSelect.dispatchEvent(new Event('change'));
+</script>
+
+</body>
+</html>
