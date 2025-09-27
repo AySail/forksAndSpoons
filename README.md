@@ -2,124 +2,102 @@
 
 # Forks & Spoons (FAS)
 
-**FAS** is a versatile JavaScript utility library offering advanced math operations and comprehensive temperature conversions. Whether you need to handle fractions, factorials, prime checks, or convert temperatures between a wide range of scales, Forks & Spoons has you covered.
+**Forks & Spoons (FAS)** is a lightweight JavaScript utility library for converting temperatures between multiple scales and accurately converting pet ages (dogs, cats, and horses) to human years and vice versa.
 
 ---
 
 ## Features
 
-- **Math Utilities:**
-  - Fraction operations (add, subtract, multiply, divide)
-  - Factorial calculations
-  - Prime number checks
-  - Advanced math helpers
+* **Temperature conversions** between 10+ scales:
 
-- **Temperature Conversions:**
-  Supports conversions between:
-  - Celsius (°C)
-  - Fahrenheit (°F)
-  - Kelvin (K)
-  - Rankine (R)
-  - Réaumur (Re)
-  - Delisle (De)
-  - Rømer (Ro)
-  - Newton (N)
-  - Gas Mark (GM)
+  * Celsius, Fahrenheit, Kelvin, Rankine, Réaumur, Rømer, Delisle, Newton, Gas mark, Danish scale
+* **Pet age conversions** for:
+
+  * Dogs (small, medium, large breeds with realistic year mappings)
+  * Cats
+  * Horses
 
 ---
 
 ## Installation
 
-Install via npm:
+```(Not Supported Right Now)
+npm install forks-and-spoons
+```
 
-```bash
-git clone https://github.com/AySail/forksAndSpoons.git
-````
-
-Or download the `fas.js` file directly and include it in your project.(via github download)
+Or use via `<script>` tag (coming soon).
+We recommd downloading the .js
 
 ---
 
 ## Usage
 
-### Importing
-
 ```js
-import { addFractions, convertTemperature } from 'fas.js';
-```
+import FAS from 'forks-and-spoons';
 
-### Fraction Operations
+// Temperature conversion
+const fahrenheit = FAS.temperature.convert(100, 'Celsius', 'Fahrenheit');
+console.log(fahrenheit); // 212
 
-```js
-const frac1 = { numerator: 1, denominator: 2 };
-const frac2 = { numerator: 3, denominator: 4 };
+// Dog age to human years
+const humanYearsSmallDog = FAS.petAge.dogToHuman(3, 'small');
+console.log(humanYearsSmallDog); // 32
 
-const sum = addFractions(frac1, frac2);
-console.log(sum); // { numerator: 5, denominator: 4 }
-```
+// Cat age to human years
+const humanYearsCat = FAS.petAge.catToHuman(6);
+console.log(humanYearsCat); // 40
 
-### Temperature Conversion
-
-```js
-const tempF = convertTemperature(100, 'C', 'F');
-console.log(tempF); // 212
+// Horse age to human years
+const humanYearsHorse = FAS.petAge.horseToHuman(7);
+console.log(humanYearsHorse); // 21
 ```
 
 ---
 
 ## API
 
-### Fraction Functions
+### Temperature
 
-* `addFractions(frac1, frac2)`
-* `subtractFractions(frac1, frac2)`
-* `multiplyFractions(frac1, frac2)`
-* `divideFractions(frac1, frac2)`
+`FAS.temperature.convert(value, fromScale, toScale)`
 
-Each function expects two fraction objects of the form:
+* `value` — Number: temperature value to convert
+* `fromScale` — String: one of `celsius`, `fahrenheit`, `kelvin`, `rankine`, `reaumur`, `romer`, `delisle`, `newton`, `gasmark`, `danish`
+* `toScale` — String: target scale (same options as `fromScale`)
 
-```js
-{ numerator: number, denominator: number }
-```
-
-and returns a simplified fraction object.
+Returns: converted temperature as a number rounded to 2 decimals.
 
 ---
 
-### Temperature Conversion
+### Pet Age
 
-* `convertTemperature(value, fromScale, toScale)`
+#### Dogs
 
-Scales supported (case-insensitive):
+* `FAS.petAge.dogToHuman(dogYears, size)`
+* `FAS.petAge.humanToDog(humanYears, size)`
 
-| Scale | Description |
-| ----- | ----------- |
-| `C`   | Celsius     |
-| `F`   | Fahrenheit  |
-| `K`   | Kelvin      |
-| `R`   | Rankine     |
-| `Re`  | Réaumur     |
-| `De`  | Delisle     |
-| `Ro`  | Rømer       |
-| `N`   | Newton      |
-| `GM`  | Gas Mark    |
+`size` options: `'small'`, `'medium'`, `'large'`
+
+#### Cats
+
+* `FAS.petAge.catToHuman(catYears)`
+* `FAS.petAge.humanToCat(humanYears)`
+
+#### Horses
+
+* `FAS.petAge.horseToHuman(horseYears)`
+* `FAS.petAge.humanToHorse(humanYears)`
 
 ---
 
 ## Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to open a pull request or issue on GitHub.
+Contributions are welcome! Feel free to open issues or pull requests.
 
 ---
 
 ## License
 
-This project is licensed under the MIT License.
+MIT © 2025 Aysail
 
 ---
-
-## Contact
-
-Made with ❤️ by [Jer](https://github.com/Aysail)
-
 
